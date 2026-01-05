@@ -1,0 +1,22 @@
+# .github/workflows/ci.yml
+name: CI
+on:
+    push:
+        branches:
+            - master
+jobs:
+    deploy:
+        runs-on: windows
+        steps:
+            - uses: actions/chechout@v5
+            - uses: actions/setup-node@v6
+              with:
+                node-version-files: ".nvmrc"
+            - name: Install dependancies
+              run: npm ci
+            - name: Execute unit tests
+              run: npm test
+            - name: Lint code
+              run: npm run lint
+
+

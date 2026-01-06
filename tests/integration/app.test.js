@@ -3,7 +3,7 @@ const app = require("../../src/server");
 
 describe("API de salutation", () => {
   describe("GET /hello", () => {
-    it("retourne le message de base", async () => {
+    it("Retourne le message de base", async () => {
       const res = await request(app).get("/hello");
       expect(res.statusCode).toBe(200);
       expect(res.text).toBe("Hello world!");
@@ -11,7 +11,7 @@ describe("API de salutation", () => {
   });
 
   describe("GET /hello/:name", () => {
-    it("retourne un message personnalisé", async () => {
+    it("Retourne un message personnalisé", async () => {
       const res = await request(app).get("/hello/Bob");
       expect(res.statusCode).toBe(200);
       expect(res.text).toBe("Hello world! From Bob");
@@ -19,7 +19,7 @@ describe("API de salutation", () => {
   });
 
   describe("POST /hello", () => {
-    it("utilise l'en-tête x-name pour personnaliser", async () => {
+    it("Utilise l'en-tête x-name pour personnaliser", async () => {
       const res = await request(app)
         .post("/hello")
         .set("x-name", "Charlie");
@@ -27,10 +27,22 @@ describe("API de salutation", () => {
       expect(res.text).toBe("Hello world! From Charlie");
     });
 
-    it("retourne le message de base sans en-tête", async () => {
+    it("Retourne le message de base sans en-tête", async () => {
       const res = await request(app).post("/hello");
       expect(res.statusCode).toBe(200);
       expect(res.text).toBe("Hello world!");
+    });
+  });
+
+  describe("Méthodes non autorisées", () => {
+    it("PUT /hello retourne 405", async () => {
+      const res = await request(app).put("/hello");
+      expect(res.statusCode).toBe(405);
+    });
+
+    it("DELETE /hello retourne 405", async () => {
+      const res = await request(app).delete("/hello");
+      expect(res.statusCode).toBe(405);
     });
   });
 });

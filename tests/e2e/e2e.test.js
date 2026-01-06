@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { app } = require("../../src/server");
+const app = require("../../src/server");
 
 describe("Tests E2E de l'API", () => {
   let server;

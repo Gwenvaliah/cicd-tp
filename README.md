@@ -1,81 +1,119 @@
-# TP CI/CD
+# API de Salutation - TP CI/CD
 
-A Node.js application providing a simple greeting service with a REST API. It includes a server built with Express, greeting logic, and comprehensive test
-suites (unit, integration, and end-to-end).
+Une application Node.js fournissant un service de salutation simple avec une API REST. Le projet inclut un serveur Express, une logique de salutation et des suites de tests complètes.
 
-## Features
+## Fonctionnalités
 
-- **Greeting Functionality**: Generates personalized greetings via `src/greeting.js`.
-- **REST API Server**: Built with Express in `src/server.js`, supporting GET and POST endpoints for greetings.
-- **Testing**: Full test coverage with Jest:
-  - Unit tests in `tests/unit/greeting.test.js`.
-  - Integration tests in `tests/integration/app.test.js`.
-  - End-to-end tests in `tests/e2e/e2e.test.js`.
-- **Linting**: Configured with ESLint (via `.eslintrc.js` and `.eslintignore`).
-- **Node.js Version Management**: Uses `.nvmrc` to specify Node.js v22.19.0.
+- **Logique de salutation** : Génère des messages personnalisés via `src/greeting.js`
+- **Serveur REST** : Construit avec Express dans `src/server.js`
+  - Endpoints :
+    - `GET /hello/:name?` : Retourne une salutation
+    - `POST /hello` : Utilise l'en-tête `x-name`
+- **Tests complets** :
+  - Tests unitaires (`tests/unit/greeting.test.js`)
+  - Tests d'intégration (`tests/integration/app.test.js`)
+  - Tests E2E (`tests/e2e/e2e.test.js`)
+- **Linting** : Configuré avec ESLint
+- **Gestion de version Node** : Utilise `.nvmrc` (v22.19.0)
+- **CI/CD** : Pipeline GitHub Actions configuré
 
-## Prerequisites
+## Prérequis
 
-- Node.js ≥22.19.0 (use `.nvmrc` with nvm: `nvm use`).
-- npm (included with Node.js).
+- Node.js ≥22.19.0 (utilisez `nvm use` avec le fichier `.nvmrc`)
+- npm (inclus avec Node.js)
 
 ## Installation
 
-1. Fork the repository:
-2. Install dependencies:
+```bash
+# Cloner le dépôt
+git clone [URL_DU_DEPOT]
+cd [NOM_DU_PROJET]
 
-```
+# Installer les dépendances
 npm install
 ```
 
-## Usage
+## Utilisation
 
-Start the server:
-
-```
+### Démarrer le serveur
+```bash
 npm start
 ```
+Le serveur écoute sur le port 3000 (ou `process.env.PORT`).
 
-The server runs on port 3000 (or `process.env.PORT`). Endpoints:
+### Endpoints disponibles
+- **GET** `/hello` → "Hello world!"
+- **GET** `/hello/Alice` → "Hello world! From Alice"
+- **POST** `/hello` (avec en-tête `x-name: Bob`) → "Hello world! From Bob"
 
-- `GET /hello/:name?`: Returns a greeting (e.g., "Hello world!" or "Hello world! From [name]").
-- `POST /hello`: Expects `x-name` header for the name.
+## Tests
 
-## Testing
+### Exécuter tous les tests
+```bash
+npm test
+```
 
-Run tests with Jest:
+### Tests spécifiques
+```bash
+# Tests unitaires uniquement
+npm test -- tests/unit/
 
-- All tests: `npm test`
-- Unit tests: `npm test -- tests/unit/`
-- Integration tests: `npm test -- tests/integration/`
-- E2E tests: `npm test -- tests/e2e/`
+# Tests d'intégration uniquement
+npm test -- tests/integration/
+
+# Tests E2E uniquement
+npm test -- tests/e2e/
+```
 
 ## Linting
-
-Check code quality:
-
-```
+```bash
 npm run lint
 ```
 
-## Project Structure
+## CI/CD
 
-- `src/greeting.js`: Core greeting logic.
-- `src/server.js`: Express server setup.
-- `tests/`: Test suites (unit, integration, e2e).
-- `.eslintrc.js`: ESLint configuration.
-- `.eslintignore`: Files/directories excluded from linting.
-- `.nvmrc`: Node.js version specification.
-- `package.json`: Project metadata, dependencies, and scripts.
+Le projet inclut un pipeline GitHub Actions (`.github/workflows/ci.yml`) qui :
+1. Installe les dépendances
+2. Exécute les tests unitaires et d'intégration
+3. Vérifie le linting
 
-## Dependencies
+## Structure du projet
+```
+.
+├── src/
+│   ├── greeting.js       # Logique métier
+│   └── server.js         # Serveur Express
+├── tests/
+│   ├── unit/             # Tests unitaires
+│   ├── integration/      # Tests d'intégration
+│   └── e2e/              # Tests bout-en-bout
+├── .eslintrc.js          # Configuration ESLint
+├── .nvmrc                # Version Node.js
+├── .gitignore            # Fichiers ignorés
+└── package.json          # Métadonnées et scripts
+```
 
-- **Runtime**: Express (web server), Axios (HTTP client), Supertest (testing utility).
-- **Dev**: ESLint (linting), Jest (testing).
+## Dépendances
 
-## Contributing
+### Production
+- `express` : Framework web
+- `axios` : Client HTTP (pour les tests E2E)
+- `supertest` : Utilitaire de test HTTP
 
-1. Fork the repo.
-2. Create a feature branch.
-3. Run tests and linting.
-4. Submit a pull request.
+### Développement
+- `eslint` : Linter
+- `jest` : Framework de test
+
+## Contribution
+
+1. Forker le dépôt
+2. Créer une branche de fonctionnalité
+3. Exécuter les tests et le linting
+4. Soumettre une Pull Request
+
+## Notes supplémentaires
+
+- Le serveur s'arrête automatiquement si le port 3000 est occupé
+- Les tests E2E nécessitent que le serveur soit démarré séparément
+- La configuration ESLint applique des règles strictes (semi-colons obligatoires, etc.)
+- Le pipeline CI s'exécute sur Windows avec Node.js 22.19.0

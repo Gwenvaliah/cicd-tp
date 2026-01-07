@@ -1,18 +1,27 @@
 # .github/workflows/ci.yml
 name: CI
+
 on:
-    push:
+  push:
+  pull_request:
+
 jobs:
-    deploy:
-        runs-on: windows
-        steps:
-            - uses: actions/chechout@v5
-            - uses: actions/setup-node@v6
-              with:
-                node-version-files: ".nvmrc"
-            - name: Install dependancies
-              run: npm ci
-            - name: Execute unit tests
-              run: npm test
-            - name: Lint code
-              run: npm run lint
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: npm ci
+      - run: npm test

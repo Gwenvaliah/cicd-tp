@@ -32,6 +32,7 @@ jobs:
       - run: npm ci
       - name: Run tests and generate report
         run: npx allure run -- npm run test
+      - run: ls -clash .; ls -clash allure-report/
       - name: Run Allure Action
         uses: allure-framework/allure-action@v0
         with:

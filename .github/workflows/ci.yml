@@ -5,6 +5,12 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+  checks: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -24,4 +30,14 @@ jobs:
         with:
           node-version-file: ".nvmrc"
       - run: npm ci
-      - run: npm test
+      - name: Run tests and generate report
+        run: npx allure run -- npm run test
+      - name: Run Allure Action
+        uses: allure-framework/allure-action@v0
+        with:
+          report-directory: "./allure-report"
+      - name: Upload Allure Report (optionnel)
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report

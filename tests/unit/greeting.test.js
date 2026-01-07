@@ -10,7 +10,7 @@ describe("getGreeting", () => {
   });
 
   it("Gère les chaînes vides", () => {
-    expect(getGreeting("")).toBe("Hello world! From ");
+    expect(getGreeting("")).toBe("Hello world!");
   });
 
   it("Gère null comme pas de nom", () => {
